@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 
 namespace CalTracker
 {
-    class FCalendar 
+    class FCalendar : INotifyPropertyChanged
     {
         readonly CultureInfo myCI = new CultureInfo("en-US");
         public Calendar calendar;
         readonly DateTime now = DateTime.Now;
         public List<FDay> days;
+
 
         public FCalendar()
         {
@@ -68,5 +70,12 @@ namespace CalTracker
             }
             throw new Exception("Something happened in the MonthColumnRange");
         }
+        public string MonthName
+        {
+            get { return CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(now.Month); }
+        }
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

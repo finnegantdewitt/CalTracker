@@ -23,11 +23,18 @@ namespace CalTracker
     public partial class MainWindow : Window
     {
         FCalendar fCalendar;
+        int month;
         public MainWindow()
         {
             InitializeComponent();
             fCalendar = new FCalendar();
-            itemsControl.ItemsSource = fCalendar.MonthView(6);
+            month = DateTime.Now.Month;
+
+            Binding monthBinding = new Binding("MonthName");
+            monthBinding.Source = fCalendar;
+            monthTextBlock.SetBinding(TextBlock.TextProperty, monthBinding);
+
+            itemsControl.ItemsSource = fCalendar.MonthView(month);
         }
         
     }
