@@ -7,11 +7,13 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="600">
     <Grid>
+        
         <Grid x:Name="TitleGrid" Height="100" Margin="0,0,0,600">
-            <Button x:Name="prevMonthButton" VerticalAlignment="Center" HorizontalAlignment="Left">Prev Month</Button>
+            <Button x:Name="prevMonthButton" VerticalAlignment="Center" HorizontalAlignment="Left" Click="prevMonthButton_Click">Prev Month</Button>
             <TextBlock x:Name="monthTextBlock" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <Button x:Name="nextMonthButton" VerticalAlignment="Center" HorizontalAlignment="Right">Next Month</Button>
+            <Button x:Name="nextMonthButton" VerticalAlignment="Center" HorizontalAlignment="Right" Click="nextMonthButton_Click">Next Month</Button>
         </Grid>
+        
         <Grid x:Name="CalendarGrid" Margin="0,100,0,0">
             <ItemsControl x:Name="itemsControl">
                 

@@ -34,8 +34,19 @@ namespace CalTracker
             monthBinding.Source = fCalendar;
             monthTextBlock.SetBinding(TextBlock.TextProperty, monthBinding);
 
-            itemsControl.ItemsSource = fCalendar.MonthView(month);
+            Binding monthViewBinding = new Binding("MonthView");
+            monthViewBinding.Source = fCalendar;
+            itemsControl.SetBinding(ItemsControl.ItemsSourceProperty, monthViewBinding);
         }
-        
+
+        private void prevMonthButton_Click(object sender, RoutedEventArgs e)
+        {
+            fCalendar.CurrentMonth -= 1;
+        }
+
+        private void nextMonthButton_Click(object sender, RoutedEventArgs e)
+        {
+            fCalendar.CurrentMonth += 1;
+        }
     }
 }

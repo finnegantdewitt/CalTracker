@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
@@ -11,14 +12,14 @@ namespace CalTracker
     {
         readonly CultureInfo myCI = new CultureInfo("en-US");
         public Calendar calendar;
-        readonly DateTime now = DateTime.Now;
         public List<FDay> days;
-
+        private int _CurrentMonth;
 
         public FCalendar()
         {
             calendar = myCI.Calendar;
-            days = LoadFDays(now.Year);
+            days = LoadFDays(DateTime.Now.Year);
+            _CurrentMonth = DateTime.Now.Month;
         }
 
         private List<FDay> LoadFDays(int year)
@@ -41,20 +42,25 @@ namespace CalTracker
             }
             return fDays;
         }
-        public List<FDay> MonthView(int month)
+
+        public ObservableCollection<FDay> MonthView
         {
-            List<FDay> monthList = new List<FDay>();
-            (int, int) monthColumnRange = MonthColumnRange(month);
-            foreach(FDay day in days)
+            get 
             {
-                if ((day.WeekOfYear >= monthColumnRange.Item1) && (day.WeekOfYear <= monthColumnRange.Item2))
+                ObservableCollection<FDay> monthList = new ObservableCollection<FDay>();
+                (int, int) monthColumnRange = MonthColumnRange(CurrentMonth);
+                foreach (FDay day in days)
                 {
-                    day.RowInCalView = day.WeekOfYear - monthColumnRange.Item1;
-                    monthList.Add(day);
+                    if ((day.WeekOfYear >= monthColumnRange.Item1) && (day.WeekOfYear <= monthColumnRange.Item2))
+                    {
+                        day.RowInCalView = day.WeekOfYear - monthColumnRange.Item1;
+                        monthList.Add(day);
+                    }
+
                 }
-                    
-            }
-            return monthList;
+                return monthList;
+            } 
+            
         }
         //TODO:
         //add error for out of range for calendar
@@ -72,10 +78,35 @@ namespace CalTracker
         }
         public string MonthName
         {
-            get { return CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(now.Month); }
+            get { return CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(CurrentMonth); }
         }
 
+        public int CurrentMonth
+        {
+            get
+            {
+                return _CurrentMonth;
+            }
+            set
+            {
+                if(_CurrentMonth != value)
+                {
+                    _CurrentMonth = value;
+                    OnPropertyChanged("MonthName");
+                    OnPropertyChanged("MonthView");
+                }
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged(string info)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(info));
+            }
+        }
+
     }
 }
