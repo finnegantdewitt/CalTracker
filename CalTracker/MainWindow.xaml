@@ -6,17 +6,22 @@
         xmlns:local="clr-namespace:CalTracker"
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="600">
-    <Grid>
-        
-        <Grid x:Name="TitleGrid" Height="100" Margin="0,0,0,600">
-            <Button x:Name="prevMonthButton" VerticalAlignment="Center" HorizontalAlignment="Left" Click="prevMonthButton_Click">Prev Month</Button>
-            <TextBlock x:Name="monthTextBlock" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <Button x:Name="nextMonthButton" VerticalAlignment="Center" HorizontalAlignment="Right" Click="nextMonthButton_Click">Next Month</Button>
+    <Grid x:Name="MainGrid">
+
+        <Grid x:Name="TitleGrid" Height="100" VerticalAlignment="Top" >
+            <StackPanel x:Name="MonthStackPanel"  VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10">
+                <TextBlock x:Name="monthTextBlock" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10">
+                <Button x:Name="prevMonthButton" Click="prevMonthButton_Click" Content="Prev Month"/>
+                <Button x:Name="nextMonthButton" Click="nextMonthButton_Click" HorizontalAlignment="Right" Content="Next Month"/>
+            </StackPanel>
         </Grid>
-        
+
+
         <Grid x:Name="CalendarGrid" Margin="0,100,0,0">
             <ItemsControl x:Name="itemsControl">
-                
+
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <Grid>
@@ -40,13 +45,13 @@
                         </Grid>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
-                
+
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Button Margin="0,0,0,0" 
                                 HorizontalContentAlignment="Right" 
                                 VerticalContentAlignment="Top" 
-                                Content="{Binding Day}"/>
+                                Content="{Binding Day}" Click="FDayButton_Clicked"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
 

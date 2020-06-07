@@ -9,7 +9,7 @@ namespace CalTracker
     class FDay 
     {
         DateTime dateTime;
-        bool highlighted = false;
+        private bool highlighted = false;
         public int Column { get; set; }
         public int WeekOfYear { get; set; }
         public int RowInCalView { get; set; }
@@ -48,6 +48,13 @@ namespace CalTracker
         public override string ToString()
         {
             return " " + Column + " " + WeekOfYear;
+        }
+        public bool Highlight
+        {
+            get
+            {
+                return highlighted;
+            }
         }
     }
 }

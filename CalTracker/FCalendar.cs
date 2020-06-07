@@ -31,11 +31,11 @@ namespace CalTracker
                 for(int day = 1; day <= calendar.GetDaysInMonth(year, month); day++)
                 {
                     FDay fDay = new FDay(year, month, day, week);
-                    Console.Write(fDay.ToString() + ", ");
+                    //Console.Write(fDay.ToString() + ", ");
                     if (fDay.DayOfWeek == 6)
                     {
                         week++;
-                        Console.WriteLine();
+                        //Console.WriteLine();
                     }
                     fDays.Add(fDay);
                 }
@@ -76,9 +76,10 @@ namespace CalTracker
             }
             throw new Exception("Something happened in the MonthColumnRange");
         }
-        public string MonthName
+
+        public string MonthYearTitle
         {
-            get { return CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(CurrentMonth); }
+            get { return CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(CurrentMonth) + " " + DateTime.Now.Year; }
         }
 
         public int CurrentMonth
@@ -92,7 +93,7 @@ namespace CalTracker
                 if(_CurrentMonth != value)
                 {
                     _CurrentMonth = value;
-                    OnPropertyChanged("MonthName");
+                    OnPropertyChanged("MonthYearTitle");
                     OnPropertyChanged("MonthView");
                 }
             }
@@ -101,11 +102,7 @@ namespace CalTracker
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string info)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(info));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
         }
 
     }

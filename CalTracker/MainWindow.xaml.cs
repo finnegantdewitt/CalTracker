@@ -23,14 +23,15 @@ namespace CalTracker
     public partial class MainWindow : Window
     {
         FCalendar fCalendar;
-        int month;
         public MainWindow()
         {
             InitializeComponent();
             fCalendar = new FCalendar();
-            month = DateTime.Now.Month;
 
-            Binding monthBinding = new Binding("MonthName");
+            prevMonthButton.Width = MainGrid.Width / 2;
+            nextMonthButton.Width = MainGrid.Width / 2;
+
+            Binding monthBinding = new Binding("MonthYearTitle");
             monthBinding.Source = fCalendar;
             monthTextBlock.SetBinding(TextBlock.TextProperty, monthBinding);
 
@@ -47,6 +48,11 @@ namespace CalTracker
         private void nextMonthButton_Click(object sender, RoutedEventArgs e)
         {
             fCalendar.CurrentMonth += 1;
+        }
+
+        private void FDayButton_Clicked(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
         }
     }
 }
