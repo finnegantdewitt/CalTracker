@@ -6,7 +6,7 @@ using System.Windows.Controls;
 
 namespace CalTracker
 {
-    class FDay 
+    public class FDay 
     {
         DateTime dateTime;
         private bool highlighted = false;

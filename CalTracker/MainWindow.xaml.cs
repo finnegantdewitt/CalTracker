@@ -26,18 +26,16 @@ namespace CalTracker
         public MainWindow()
         {
             InitializeComponent();
-            fCalendar = new FCalendar();
+            fCalendar = (FCalendar)this.FindResource("fCalendar");
+            //fCalendar = new FCalendar();
 
-            prevMonthButton.Width = MainGrid.Width / 2;
-            nextMonthButton.Width = MainGrid.Width / 2;
+            // Binding monthBinding = new Binding("MonthYearTitle");
+            //monthBinding.Source = fCalendar;
+            //monthTextBlock.SetBinding(TextBlock.TextProperty, monthBinding);
 
-            Binding monthBinding = new Binding("MonthYearTitle");
-            monthBinding.Source = fCalendar;
-            monthTextBlock.SetBinding(TextBlock.TextProperty, monthBinding);
-
-            Binding monthViewBinding = new Binding("MonthView");
-            monthViewBinding.Source = fCalendar;
-            itemsControl.SetBinding(ItemsControl.ItemsSourceProperty, monthViewBinding);
+            //Binding monthViewBinding = new Binding("MonthView");
+            //monthViewBinding.Source = fCalendar;
+            //itemsControl.SetBinding(ItemsControl.ItemsSourceProperty, monthViewBinding);
         }
 
         private void prevMonthButton_Click(object sender, RoutedEventArgs e)

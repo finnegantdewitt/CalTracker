@@ -3,24 +3,36 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CalTracker"
+        xmlns:local="clr-namespace:CalTracker" 
+        xmlns:sys="clr-namespace:System;assembly=System.Runtime"
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="600">
+
+    <Window.Resources>
+        <local:FCalendar x:Key="fCalendar"/>
+        <ObjectDataProvider ObjectType="{x:Type local:FCalendar}" MethodName="IsCurrentMonth" x:Key="IsCurrentMonth">
+            <ObjectDataProvider.MethodParameters>
+                <sys:Int32>0</sys:Int32>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <local:DayGreyer x:Key="dayGreyer"/>
+    </Window.Resources>
+    
     <Grid x:Name="MainGrid">
 
         <Grid x:Name="TitleGrid" Height="100" VerticalAlignment="Top" >
             <StackPanel x:Name="MonthStackPanel"  VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10">
-                <TextBlock x:Name="monthTextBlock" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="monthTextBlock" Text="{Binding Source={StaticResource fCalendar}, Path=MonthYearTitle}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10">
-                <Button x:Name="prevMonthButton" Click="prevMonthButton_Click" Content="Prev Month"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0">
+                <Button x:Name="prevMonthButton" Click="prevMonthButton_Click" Margin="0,0,5,0" Content="Prev Month"/>
                 <Button x:Name="nextMonthButton" Click="nextMonthButton_Click" HorizontalAlignment="Right" Content="Next Month"/>
             </StackPanel>
         </Grid>
 
 
         <Grid x:Name="CalendarGrid" Margin="0,100,0,0">
-            <ItemsControl x:Name="itemsControl">
+            <ItemsControl x:Name="itemsControl" ItemsSource="{Binding Source={StaticResource fCalendar}, Path=MonthView}">
 
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -51,7 +63,21 @@
                         <Button Margin="0,0,0,0" 
                                 HorizontalContentAlignment="Right" 
                                 VerticalContentAlignment="Top" 
-                                Content="{Binding Day}" Click="FDayButton_Clicked"/>
+                                Click="FDayButton_Clicked"
+                                Content="{Binding Day}"
+                                >
+
+                            <Button.Style>
+                                <Style>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=Month, ConverterParameter={StaticResource fCalendar}, Converter={StaticResource dayGreyer}}" Value="false">
+                                            <Setter Property="Button.Foreground" Value="Gray"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                            
+                        </Button>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
 
@@ -63,5 +89,6 @@
                 </ItemsControl.ItemContainerStyle>
             </ItemsControl>
         </Grid>
+        
     </Grid>
 </Window>

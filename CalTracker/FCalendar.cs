@@ -62,9 +62,7 @@ namespace CalTracker
             } 
             
         }
-        //TODO:
-        //add error for out of range for calendar
-        //scollable by row/(week)
+
         private (int, int) MonthColumnRange(int month)
         {
             foreach(FDay day in days)
@@ -97,6 +95,14 @@ namespace CalTracker
                     OnPropertyChanged("MonthView");
                 }
             }
+        }
+
+       public bool IsCurrentMonth(int month)
+        {
+            if (month == _CurrentMonth)
+                return true;
+            else
+                return false;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
