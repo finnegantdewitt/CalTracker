@@ -10,23 +10,62 @@
 
     <Window.Resources>
         <local:FCalendar x:Key="fCalendar"/>
-        <ObjectDataProvider ObjectType="{x:Type local:FCalendar}" MethodName="IsCurrentMonth" x:Key="IsCurrentMonth">
-            <ObjectDataProvider.MethodParameters>
-                <sys:Int32>0</sys:Int32>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
         <local:DayGreyer x:Key="dayGreyer"/>
+
+        <Style x:Key="allButtons" TargetType="{x:Type Button}">
+        </Style>
+
+        <Style x:Key="MonthChangerButton" BasedOn="{StaticResource allButtons}" TargetType="{x:Type Button}">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#FF242424"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Width" Value="40"/>
+        </Style>
+        
+        <!--Button Template to change the hovering behavior-->
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FF3B3B3B"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="DarkGray"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background" Color="LightGray"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+        <ControlTemplate x:Key="HoverButtonTemplate" TargetType="{x:Type ButtonBase}">
+            <Border x:Name="border" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" SnapsToDevicePixels="true">
+                <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="Button.IsDefaulted" Value="true">
+                    <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background}"/>
+                    <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="true">
+                    <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
+                    <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="false">
+                    <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+                    <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                    <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        
     </Window.Resources>
     
     <Grid x:Name="MainGrid">
 
-        <Grid x:Name="TitleGrid" Height="100" VerticalAlignment="Top" >
+        <Grid x:Name="TitleGrid" Height="100" VerticalAlignment="Top" Background="#FF242424" >
             <StackPanel x:Name="MonthStackPanel"  VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10">
-                <TextBlock x:Name="monthTextBlock" Text="{Binding Source={StaticResource fCalendar}, Path=MonthYearTitle}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="monthTextBlock" Text="{Binding Source={StaticResource fCalendar}, Path=MonthYearTitle}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontSize="32"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0">
-                <Button x:Name="prevMonthButton" Click="prevMonthButton_Click" Margin="0,0,5,0" Content="Prev Month"/>
-                <Button x:Name="nextMonthButton" Click="nextMonthButton_Click" HorizontalAlignment="Right" Content="Next Month"/>
+                <Button Template="{StaticResource HoverButtonTemplate}" x:Name="prevMonthButton" Click="prevMonthButton_Click" Margin="0,0,5,0" Content="&lt;" Style="{StaticResource MonthChangerButton}"/>
+                <Button Template="{StaticResource HoverButtonTemplate}" x:Name="nextMonthButton" Click="nextMonthButton_Click" HorizontalAlignment="Right" Content="&gt;" Style="{StaticResource MonthChangerButton}"/>
             </StackPanel>
         </Grid>
 
@@ -60,18 +99,22 @@
 
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Button Margin="0,0,0,0" 
-                                HorizontalContentAlignment="Right" 
-                                VerticalContentAlignment="Top" 
-                                Click="FDayButton_Clicked"
-                                Content="{Binding Day}"
-                                >
-
+                        <Button Click="FDayButton_Clicked">
+                            
                             <Button.Style>
-                                <Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template" Value="{StaticResource HoverButtonTemplate}"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Right"/>
+                                    <Setter Property="VerticalContentAlignment" Value="Top"/>
+                                    <Setter Property="Padding" Value="0,0,4,0"/>
+                                    <Setter Property="Content" Value="{Binding Day}"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                    <Setter Property="Background" Value="#FF242424"/>
+                                    <Setter Property="FontSize" Value="16"/>
+
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding Path=Month, ConverterParameter={StaticResource fCalendar}, Converter={StaticResource dayGreyer}}" Value="false">
-                                            <Setter Property="Button.Foreground" Value="Gray"/>
+                                            <Setter Property="Foreground" Value="Gray"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>

@@ -22,20 +22,11 @@ namespace CalTracker
     /// </summary>
     public partial class MainWindow : Window
     {
-        FCalendar fCalendar;
+        readonly FCalendar fCalendar;
         public MainWindow()
         {
             InitializeComponent();
             fCalendar = (FCalendar)this.FindResource("fCalendar");
-            //fCalendar = new FCalendar();
-
-            // Binding monthBinding = new Binding("MonthYearTitle");
-            //monthBinding.Source = fCalendar;
-            //monthTextBlock.SetBinding(TextBlock.TextProperty, monthBinding);
-
-            //Binding monthViewBinding = new Binding("MonthView");
-            //monthViewBinding.Source = fCalendar;
-            //itemsControl.SetBinding(ItemsControl.ItemsSourceProperty, monthViewBinding);
         }
 
         private void prevMonthButton_Click(object sender, RoutedEventArgs e)
