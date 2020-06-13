@@ -42,6 +42,7 @@ namespace CalTracker
         private void FDayButton_Clicked(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
+            fCalendar.SelectedFDay = (FDay)button.DataContext;
         }
     }
 }

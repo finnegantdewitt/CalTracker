@@ -8,11 +8,13 @@ using System.Text;
 
 namespace CalTracker
 {
+    //TODO: REFACTOR
     class FCalendar : INotifyPropertyChanged
     {
         readonly CultureInfo myCI = new CultureInfo("en-US");
         public Calendar calendar;
         public List<FDay> days;
+        private FDay _SelectedFDay;
         private int _CurrentMonth;
 
         public FCalendar()
@@ -20,6 +22,18 @@ namespace CalTracker
             calendar = myCI.Calendar;
             days = LoadFDays(DateTime.Now.Year);
             _CurrentMonth = DateTime.Now.Month;
+            _SelectedFDay = getFDay(DateTime.Now.Date);
+        }
+
+        //TODO: Make finding a day more effient
+        private FDay getFDay(DateTime dateTime)
+        {
+            foreach(FDay fday in days)
+            {
+                if (fday.dateTime == dateTime)
+                    return fday;
+            }
+            throw new Exception("Error in getFDay");
         }
 
         private List<FDay> LoadFDays(int year)
@@ -97,13 +111,20 @@ namespace CalTracker
             }
         }
 
-       public bool IsCurrentMonth(int month)
+        public FDay SelectedFDay
         {
-            if (month == _CurrentMonth)
-                return true;
-            else
-                return false;
+            get
+            {
+                return _SelectedFDay; 
+            }
+            set
+            {
+                _SelectedFDay = value;
+                OnPropertyChanged("MonthView");
+                OnPropertyChanged("SelectedFDay");
+            }
         }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string info)

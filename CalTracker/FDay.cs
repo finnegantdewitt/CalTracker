@@ -8,7 +8,7 @@ namespace CalTracker
 {
     public class FDay 
     {
-        DateTime dateTime;
+        public DateTime dateTime { get; }
         private bool highlighted = false;
         public int Column { get; set; }
         public int WeekOfYear { get; set; }
@@ -22,13 +22,13 @@ namespace CalTracker
         {
             dateTime = new DateTime(year, month, day);
             WeekOfYear = week;
-            Column = this.DayOfWeek;
+            Column = DayOfWeek;
         }
-        public string Day
+        public int Day
         {
             get
             {
-                return dateTime.Day.ToString();
+                return dateTime.Day;
             }
         }
         public int Month
