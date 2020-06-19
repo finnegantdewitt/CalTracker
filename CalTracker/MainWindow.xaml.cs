@@ -44,5 +44,11 @@ namespace CalTracker
             Button button = (Button)sender;
             fCalendar.SelectedFDay = (FDay)button.DataContext;
         }
+
+        private void ExerciseSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Slider slider = (Slider)sender;
+            fCalendar.SelectedFDay.Score = slider.Value;
+        }
     }
 }
