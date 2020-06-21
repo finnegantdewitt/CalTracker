@@ -70,10 +70,40 @@
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="8*"/>
+                                    <ColumnDefinition Width="5*"/>
                                 </Grid.ColumnDefinitions>
-                                <ProgressBar Orientation="Vertical" Margin="3,3,0,3" Value="{Binding Score}" Maximum="10" Background="#FF242424" BorderBrush="#FF242424"/>
-                                <ContentPresenter x:Name="contentPresenter" Grid.Column="1" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                <!--PROGRESSBAR-->
+                                <ItemsControl ItemsSource="{Binding Path=DayScore}">
+
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="1*" />
+                                                    <RowDefinition Height="1*" />
+                                                    <RowDefinition Height="1*" />
+                                                </Grid.RowDefinitions>
+                                            </Grid>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <ProgressBar Orientation="Vertical" Margin="3,3,0,3" Value="{Binding Score}" Maximum="10" Background="#FF242424" BorderBrush="#FF242424"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                    
+                                    <ItemsControl.ItemContainerStyle>
+                                        <Style>
+                                            <Setter Property="Grid.Row" Value="{Binding Row}"/>
+                                        </Style>
+                                    </ItemsControl.ItemContainerStyle>
+
+                                </ItemsControl>
+                              
+                                <!--<ProgressBar Orientation="Vertical" Margin="3,3,0,3" Value="{Binding DayScore[0].Score}" Maximum="10" Background="#FF242424" BorderBrush="#FF242424"/>-->
+                                
+                                <ContentPresenter x:Name="contentPresenter" Grid.Column="5" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                             </Grid>
                         </Border>
 
@@ -170,53 +200,48 @@
         <Grid x:Name="DayInfoTitle" Background="#FF242424" Grid.Column="1" Grid.Row="0">
             <TextBlock Text="Day Info" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontSize="32"/>
         </Grid>
+
         <Grid x:Name="DayInfoSideBar" Background="#FF242424" Grid.Column="1" Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="4*"/>
-            </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Text="{Binding Source={StaticResource fCalendar}, Path=SelectedFDay.Day, StringFormat='Day: {0}'}" FontSize="16"/>
+            <ItemsControl ItemsSource="{Binding Source={StaticResource fCalendar}, Path=HabitRows}">
 
-            <StackPanel Grid.Row="1" Orientation="Vertical">
-                <Label VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White" Content="Exercise" Margin="0,0,0,0" FontSize="16" />
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="4*"/>
-                        <ColumnDefinition Width="1*"/>
-                    </Grid.ColumnDefinitions>
-                    <Slider Grid.Column="0" VerticalAlignment="Center" Margin="10,0,0,0" Maximum="10" TickFrequency="1" IsSnapToTickEnabled="True" x:Name="ExerciseSlider" Value="{Binding Source={StaticResource fCalendar}, Path=SelectedFDay.Score}" ValueChanged="ExerciseSlider_ValueChanged"/>
-                    <TextBox Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" Background="#FF242424" Foreground="White" FontSize="16" Margin="3,0,10,0" Text="{Binding ElementName=ExerciseSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}"/>
-                </Grid>
-            </StackPanel>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="4*"/>
+                            </Grid.RowDefinitions>
+                        </Grid>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
 
-            <StackPanel Grid.Row="2" Orientation="Vertical">
-                <Label VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White" Content="Diet" Margin="0,0,0,0" FontSize="16" />
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="4*"/>
-                        <ColumnDefinition Width="1*"/>
-                    </Grid.ColumnDefinitions>
-                    <Slider Grid.Column="0" VerticalAlignment="Center" Margin="10,0,0,0" Maximum="100" />
-                    <TextBox Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" Background="#FF242424" Foreground="White" FontSize="16" Margin="3,0,10,0"/>
-                </Grid>
-            </StackPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical">
+                            <Label VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White" Content="{Binding Name}" Margin="0,0,0,0" FontSize="16" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+                                <Slider Grid.Column="0" VerticalAlignment="Center" Margin="10,0,0,0" Maximum="10" TickFrequency="1" IsSnapToTickEnabled="True" x:Name="ExerciseSlider" Value="{Binding Score}"/>
+                                <TextBox Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" Background="#FF242424" Foreground="White" FontSize="16" Margin="3,0,10,0" Text="{Binding ElementName=ExerciseSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}"/>
+                            </Grid>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
 
-            <StackPanel Grid.Row="3" Orientation="Vertical">
-                <Label VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White" Content="Programming" Margin="0,0,0,0" FontSize="16" />
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="4*"/>
-                        <ColumnDefinition Width="1*"/>
-                    </Grid.ColumnDefinitions>
-                    <Slider Grid.Column="0" VerticalAlignment="Center" Margin="10,0,0,0" Maximum="100" />
-                    <TextBox Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" Background="#FF242424" Foreground="White" FontSize="16" Margin="3,0,10,0"/>
-                </Grid>
-            </StackPanel>
+                <ItemsControl.ItemContainerStyle>
+                    <Style>
+                        <Setter Property="Grid.Row" Value="{Binding Row}"/>
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
 
+            </ItemsControl>
         </Grid>
     </Grid>
 </Window >

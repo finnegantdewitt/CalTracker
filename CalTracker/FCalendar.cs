@@ -74,8 +74,21 @@ namespace CalTracker
                 }
                 return monthList;
             } 
-            
         }
+
+        public ObservableCollection<HabitRow> HabitRows
+        {
+            get
+            {
+                ObservableCollection<HabitRow> habitRows = new ObservableCollection<HabitRow>();
+                foreach(HabitRow habitRow in SelectedFDay.DayScore)
+                {
+                    habitRows.Add(habitRow);
+                }
+                return habitRows;
+            }
+        }
+
 
         private (int, int) MonthColumnRange(int month)
         {
@@ -122,6 +135,7 @@ namespace CalTracker
                 _SelectedFDay = value;
                 OnPropertyChanged("MonthView");
                 OnPropertyChanged("SelectedFDay");
+                OnPropertyChanged("HabitRows");
             }
         }
 

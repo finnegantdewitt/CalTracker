@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
 using System.Windows;
@@ -7,14 +8,28 @@ using System.Windows.Controls;
 
 namespace CalTracker
 {
+    public class HabitRow
+    {
+        public string Name { get; set; }
+        public double Score { get; set; }
+        public int Row { get; set; }
+        public HabitRow(string name, double score, int row)
+        {
+            Name = name;
+            Score = score;
+            Row = row;
+        }
+    }
     public class FDay : INotifyPropertyChanged
+
     {
         public DateTime dateTime { get; }
-        public Dictionary<string, int> DayScore { get; set; }
         public int Column { get; set; }
         public int WeekOfYear { get; set; }
         public int RowInCalView { get; set; }
 
+        //private Dictionary<string, double> _DayScore = new Dictionary<string, double>();
+        private ObservableCollection<HabitRow> _DayScore = new ObservableCollection<HabitRow>();
         private double _Score;
         
         public FDay(int year, int month, int day)
@@ -27,6 +42,9 @@ namespace CalTracker
             dateTime = new DateTime(year, month, day);
             WeekOfYear = week;
             Column = DayOfWeek;
+            _DayScore.Add(new HabitRow("Exercise", 0, 0));
+            _DayScore.Add(new HabitRow("Diet", 0, 1));
+            _DayScore.Add(new HabitRow("Programming", 0, 2));
             _Score = 0;
         }
         public int Day
@@ -55,7 +73,14 @@ namespace CalTracker
             return " " + Column + " " + WeekOfYear;
         }
 
-
+        
+        public ObservableCollection<HabitRow> DayScore
+        {
+            get
+            {
+                return _DayScore;
+            }
+        }
         public double Score 
         { 
             get
