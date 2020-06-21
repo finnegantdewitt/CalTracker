@@ -76,19 +76,6 @@ namespace CalTracker
             } 
         }
 
-        public ObservableCollection<HabitRow> HabitRows
-        {
-            get
-            {
-                ObservableCollection<HabitRow> habitRows = new ObservableCollection<HabitRow>();
-                foreach(HabitRow habitRow in SelectedFDay.DayScore)
-                {
-                    habitRows.Add(habitRow);
-                }
-                return habitRows;
-            }
-        }
-
 
         private (int, int) MonthColumnRange(int month)
         {

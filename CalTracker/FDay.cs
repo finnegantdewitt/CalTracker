@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace CalTracker
 {
@@ -13,11 +14,13 @@ namespace CalTracker
         public string Name { get; set; }
         public double Score { get; set; }
         public int Row { get; set; }
-        public HabitRow(string name, double score, int row)
+        public SolidColorBrush Color { get; set; }
+        public HabitRow(string name, double score, int row, SolidColorBrush solidColorBrush)
         {
             Name = name;
             Score = score;
             Row = row;
+            Color = solidColorBrush; 
         }
     }
     public class FDay : INotifyPropertyChanged
@@ -28,7 +31,6 @@ namespace CalTracker
         public int WeekOfYear { get; set; }
         public int RowInCalView { get; set; }
 
-        //private Dictionary<string, double> _DayScore = new Dictionary<string, double>();
         private ObservableCollection<HabitRow> _DayScore = new ObservableCollection<HabitRow>();
         private double _Score;
         
@@ -42,9 +44,9 @@ namespace CalTracker
             dateTime = new DateTime(year, month, day);
             WeekOfYear = week;
             Column = DayOfWeek;
-            _DayScore.Add(new HabitRow("Exercise", 0, 0));
-            _DayScore.Add(new HabitRow("Diet", 0, 1));
-            _DayScore.Add(new HabitRow("Programming", 0, 2));
+            _DayScore.Add(new HabitRow("Exercise", 0, 0, Brushes.White));
+            _DayScore.Add(new HabitRow("Diet", 0, 1, Brushes.Green));
+            _DayScore.Add(new HabitRow("Programming", 0, 2, Brushes.Purple));
             _Score = 0;
         }
         public int Day
