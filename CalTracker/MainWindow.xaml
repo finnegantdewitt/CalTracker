@@ -53,6 +53,15 @@
             <Setter Property="Height" Value="50"/>
             <Setter Property="Width" Value="40"/>
         </Style>
+        
+        <Style x:Key="BottomBarButton" TargetType="Button">
+            <Setter Property="Template" Value="{StaticResource HoverButtonTemplate}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#FF242424"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Width" Value="50"/>
+        </Style>
 
         <Style x:Key="DateButton" TargetType="Button">
             <Setter Property="HorizontalContentAlignment" Value="Right"/>
@@ -189,7 +198,7 @@
                 <ItemsControl.ItemContainerStyle>
                     <Style>
                         <Setter Property="Grid.Row" Value="{Binding RowInCalView}"/>
-                        <Setter Property="Grid.Column" Value="{Binding Column}"/>
+                        <Setter Property="Grid.Column" Value="{Binding DayOfWeek}"/>
                     </Style>
                 </ItemsControl.ItemContainerStyle>
             </ItemsControl>
@@ -200,6 +209,10 @@
         </Grid>
 
         <Grid x:Name="DayInfoSideBar" Background="#FF242424" Grid.Column="1" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
             <ItemsControl ItemsSource="{Binding Source={StaticResource fCalendar}, Path=SelectedFDay.DayScore}">
 
                 <ItemsControl.ItemsPanel>
@@ -211,7 +224,9 @@
                                 <RowDefinition Height="1*"/>
                                 <RowDefinition Height="1*"/>
                                 <RowDefinition Height="1*"/>
-                                <RowDefinition Height="4*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
                             </Grid.RowDefinitions>
                         </Grid>
                     </ItemsPanelTemplate>
@@ -243,6 +258,9 @@
                 </ItemsControl.ItemContainerStyle>
 
             </ItemsControl>
+
+            <Button x:Name="SaveToDiskButton" Content="Save" HorizontalAlignment="Left" VerticalAlignment="Center" Click="SaveToDiskButton_Click" Grid.Row="1" Margin="10,0,0,0" Style="{StaticResource BottomBarButton}"/>
+
         </Grid>
     </Grid>
 </Window >

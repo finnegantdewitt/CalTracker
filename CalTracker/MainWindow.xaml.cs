@@ -1,32 +1,17 @@
-﻿using Microsoft.VisualBasic;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CalTracker
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         readonly FCalendar fCalendar;
         public MainWindow()
         {
             InitializeComponent();
-            fCalendar = (FCalendar)this.FindResource("fCalendar");
+            fCalendar = (FCalendar)FindResource("fCalendar");
         }
 
         private void prevMonthButton_Click(object sender, RoutedEventArgs e)
@@ -45,9 +30,9 @@ namespace CalTracker
             fCalendar.SelectedFDay = (FDay)button.DataContext;
         }
 
-        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void SaveToDiskButton_Click(object sender, RoutedEventArgs e)
         {
-            Slider slider = (Slider)sender;
+            
         }
     }
 }

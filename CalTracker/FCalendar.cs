@@ -3,13 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 
 namespace CalTracker
 {
-    //TODO: REFACTOR
-    class FCalendar : INotifyPropertyChanged
+    public class FCalendar : INotifyPropertyChanged
     {
         readonly CultureInfo myCI = new CultureInfo("en-US");
         public Calendar calendar;
@@ -24,8 +21,6 @@ namespace CalTracker
             _CurrentMonth = DateTime.Now.Month;
             _SelectedFDay = getFDay(DateTime.Now.Date);
         }
-
-        //TODO: Make finding a day more effient
         private FDay getFDay(DateTime dateTime)
         {
             foreach(FDay fday in days)
@@ -45,11 +40,9 @@ namespace CalTracker
                 for(int day = 1; day <= calendar.GetDaysInMonth(year, month); day++)
                 {
                     FDay fDay = new FDay(year, month, day, week);
-                    //Console.Write(fDay.ToString() + ", ");
                     if (fDay.DayOfWeek == 6)
                     {
                         week++;
-                        //Console.WriteLine();
                     }
                     fDays.Add(fDay);
                 }
@@ -62,7 +55,7 @@ namespace CalTracker
             get 
             {
                 ObservableCollection<FDay> monthList = new ObservableCollection<FDay>();
-                (int, int) monthColumnRange = MonthColumnRange(CurrentMonth);
+                (int, int) monthColumnRange = this.monthColumnRange(CurrentMonth);
                 foreach (FDay day in days)
                 {
                     if ((day.WeekOfYear >= monthColumnRange.Item1) && (day.WeekOfYear <= monthColumnRange.Item2))
@@ -77,7 +70,7 @@ namespace CalTracker
         }
 
 
-        private (int, int) MonthColumnRange(int month)
+        private (int, int) monthColumnRange(int month)
         {
             foreach(FDay day in days)
             {
