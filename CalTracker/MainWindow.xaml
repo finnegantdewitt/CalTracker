@@ -132,7 +132,7 @@
                 <DataTrigger Binding="{Binding Path=Month, ConverterParameter={StaticResource fCalendar}, Converter={StaticResource dayGreyer}}" Value="false">
                     <Setter Property="Foreground" Value="Gray"/>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Path=dateTime, ConverterParameter={StaticResource fCalendar}, Converter={StaticResource isDaySelected}}" Value="true">
+                <DataTrigger Binding="{Binding Path=DateTime, ConverterParameter={StaticResource fCalendar}, Converter={StaticResource isDaySelected}}" Value="true">
                     <Setter Property="Background" Value="#FF3B3B3B"/>
                 </DataTrigger>
             </Style.Triggers>

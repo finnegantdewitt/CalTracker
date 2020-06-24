@@ -32,7 +32,7 @@ namespace CalTracker
 
         private void SaveToDiskButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            fCalendar.SaveDays();
         }
     }
 }

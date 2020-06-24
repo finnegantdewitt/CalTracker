@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
+using System.IO;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace CalTracker
 {
@@ -17,15 +20,32 @@ namespace CalTracker
         public FCalendar()
         {
             calendar = myCI.Calendar;
-            days = LoadFDays(DateTime.Now.Year);
+            LoadDays();
             _CurrentMonth = DateTime.Now.Month;
             _SelectedFDay = getFDay(DateTime.Now.Date);
         }
+        public void LoadDays()
+        {
+            if(File.Exists("data.json"))
+            {
+                days = JsonSerializer.Deserialize<List<FDay>>(File.ReadAllText("data.json"));
+            }
+            else
+            {
+                days = LoadFDays(DateTime.Now.Year);
+            }
+        }
+        public void SaveDays()
+        {
+            string jsonString = JsonSerializer.Serialize(days);
+            File.WriteAllText("data.json", jsonString);
+        }
+
         private FDay getFDay(DateTime dateTime)
         {
             foreach(FDay fday in days)
             {
-                if (fday.dateTime == dateTime)
+                if (fday.DateTime == dateTime)
                     return fday;
             }
             throw new Exception("Error in getFDay");

@@ -13,7 +13,7 @@ namespace CalTracker
         {
             DateTime dateTime = (DateTime)value;
             FCalendar fcal = (FCalendar)parameter;
-            return dateTime == fcal.SelectedFDay.dateTime;
+            return dateTime == fcal.SelectedFDay.DateTime;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
